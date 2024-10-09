@@ -34,7 +34,7 @@
       <!--list of groups-->
       <div *ngFor="let group of groups" class="group-item">
         <div class="flex-space-between-center">
-          <span class="group-name">{{ group.name }}</span>
+          <span class="group-name">Group:{{ group.name }}</span>
           <div>
             <button (click)="selectGroup(group); isCreatingChannel = true" class="create-btn">Create Channel</button>
             <button (click)="removeGroup(group)" class="btn-remove">✖</button>
@@ -44,7 +44,7 @@
         <!--list of channels-->
         <ul class="channels-list mt-2">
           <li *ngFor="let channel of group.channels" class="flex-between">
-            <span>{{ channel.name }}</span>
+            <span>Channel:{{ channel.name }}</span>
             <button (click)="selectChannel(channel)" class="btn-join ">Join Channel</button>
             <button (click)="removeChannel(group, channel)" class="btn-remove">Delete</button>
           </li>
