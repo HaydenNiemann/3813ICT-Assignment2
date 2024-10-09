@@ -23,7 +23,8 @@ export class SocketService {
 
   // Listen for incoming messages in the channel
   getMessages(callback: (message: any) => void): void {
-    this.socket.on('newMessage', (message) => callback(message));  // Ensure this listener is live
+    this.socket.off('newMessage');  // Remove existing listener to avoid duplicates
+    this.socket.on('newMessage', (message) => callback(message));  // Add a fresh listener
   }
 
   // Get the chat history for the current channel
