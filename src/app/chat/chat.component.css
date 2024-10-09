@@ -1,0 +1,179 @@
+.chat-page {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: #e9ecef;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  gap: 20px;
+  padding: 20px;
+}
+
+.navbar {
+  padding: 10px;
+  height: 35px;
+  background-color: #343a40;
+  position: relative; 
+}
+
+.navbar .navbar-brand {
+  font-size: 1.5rem;
+  color: #f8f9fa;
+}
+
+.navbar .navbar-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; 
+  gap: 10px;
+}
+
+.navbar .nav-item {
+  list-style: none;
+  top: -400px;
+}
+
+.navbar .btn {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  position: relative; 
+  top: 5px; 
+  top: -45px;
+}
+
+.navbar .btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.navbar .btn-delete:hover {
+  background-color: #c82333;
+}
+
+.navbar .btn-logout {
+  background-color: #007bff;
+  color: white;
+}
+
+.navbar .btn-logout:hover {
+  background-color: #0056b3;
+}
+
+.sidebar {
+  flex: 1;
+  background-color: #343a40;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #f8f9fa;
+}
+
+.group-name, .channels-list {
+  font-weight: bold;
+  color: #adb5bd;
+  font-size: 20px;
+}
+
+.chat-container {
+  flex: 2;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #343a40;
+}
+
+.messages-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+.message-item {
+  background-color: #f1f3f5;
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  color: #495057;
+}
+
+.message-item:hover {
+  background-color: #e9ecef;
+}
+
+.btn-create, .btn-remove, .submit-btn, .add-user-btn, .btn-logout, .create-btn, .btn-join {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 5px ;
+}
+
+.btn-create, .submit-btn, .add-user-btn, .create-btn, .btn-join {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-create:hover, .submit-btn:hover, .add-user-btn:hover, .create-btn:hover, .btn-join:hover {
+  background-color: #0056b3;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}
+
+.users-list li {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.users-list li:hover {
+  background-color: #495057;
+}
+
+@media (max-width: 768px) {
+  .chat-page {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sidebar, .chat-container {
+    margin-bottom: 20px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 1.5rem;
+  }
+
+  .navbar .btn {
+    padding: 8px 16px;
+  } 
+}
