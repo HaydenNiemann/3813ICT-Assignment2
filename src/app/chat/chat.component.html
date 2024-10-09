@@ -44,7 +44,7 @@
         <!--list of channels-->
         <ul class="channels-list mt-2">
           <li *ngFor="let channel of group.channels" class="flex-between">
-            <span>Channel {{ channel.name }}</span>
+            <span>Channel:{{ channel.name }}</span>
             <button (click)="selectChannel(channel)" class="btn-join ">Join Channel</button>
             <button (click)="removeChannel(group, channel)" class="btn-remove">Delete</button>
           </li>
