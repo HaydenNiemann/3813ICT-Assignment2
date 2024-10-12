@@ -1,10 +1,10 @@
-const express = require('express');
-const http = require('http');
-const cors = require('cors');
+const express = require('express'); // Import express
+const http = require('http');    // Import http
+const cors = require('cors');   // Import cors
 const socketHandler = require('./sockets'); // Import socketHandler
 const { MongoClient } = require('mongodb'); // MongoDB native driver
-const multer = require('multer');
-const path = require('path');
+const multer = require('multer');   // Import multer
+const path = require('path');      // Import path
 
 // Set up express app
 const app = express();
@@ -18,6 +18,7 @@ const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 const dbName = 'chatapp';
 
+// Function to start the MongoDB client and connect to the database
 async function startMongoClient() {
   try {
     await client.connect();
@@ -27,19 +28,19 @@ async function startMongoClient() {
   }
 }
 
-startMongoClient();
+startMongoClient(); // Start the MongoDB client
 
 // Set up Multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+const storage = multer.diskStorage({  
+  destination: function (req, file, cb) {  // Set destination for uploaded files
     cb(null, 'uploads/');  // Save images to the 'uploads' directory
   },
-  filename: function (req, file, cb) {
+  filename: function (req, file, cb) {  // Set file name for uploaded files
     cb(null, Date.now() + path.extname(file.originalname));  // Append timestamp to file name
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });  // Set up multer with the storage configuration
 
 // Handle image upload route
 app.post('/upload-chat-image', upload.single('image'), (req, res) => {
@@ -55,7 +56,7 @@ app.post('/upload-chat-image', upload.single('image'), (req, res) => {
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: "http://localhost:4200", // Angular's default development server
+    origin: "http://localhost:4200", 
     methods: ["GET", "POST"]
   }
 });

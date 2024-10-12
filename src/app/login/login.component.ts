@@ -22,12 +22,12 @@ export class LoginComponent {
   showRegistration: boolean = false;              // flag to show/hide registration form 
 
   users = [                                       // list of users hardcoded for demo
-    { username: 'super', password: '123', role: 'SuperAdmin' }, 
-    { username: 'admin', password: 'admin', role: 'GroupAdmin' },
-    { username: 'user', password: 'user', role: 'User' }
+    { username: 'super', password: '123', role: 'SuperAdmin' },            // username, password and role
+    { username: 'admin', password: 'admin', role: 'GroupAdmin' },         // SuperAdmin, GroupAdmin and User
+    { username: 'user', password: 'user', role: 'User' }               // roles for different users
   ];
 
-  constructor(private router: Router, private socketService: SocketService) {    
+  constructor(private router: Router, private socketService: SocketService) {      
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');    // get users from local storage
     if (storedUsers.length > 0) {                                             // if users exist, use them    
       this.users = storedUsers;                                               // else use hardcoded users          
@@ -46,7 +46,7 @@ export class LoginComponent {
 
     if (user) {                                                               // if user is found, navigate to chat page   
       sessionStorage.setItem('currentUser', JSON.stringify({                   // store user in session storage
-        username: user.username,                                              
+        username: user.username,                                                // to persist user data across pages
         role: user.role                                                        // to show username and role
       }));
       this.router.navigate(['/chat']);                                         // navigate to chat page   
@@ -57,25 +57,25 @@ export class LoginComponent {
   }
 
   register() {                                                                 // register function
-    const existingUser = this.users.find(u => u.username === this.newUsername);
+    const existingUser = this.users.find(u => u.username === this.newUsername); // check if username is already taken
 
     if (existingUser) {                                                        // check if username is already taken
       this.loginErrorMessage = '';
-      this.registrationErrorMessage = 'Username already taken. Please choose a different one.';
-    } else {
-      const newUser = { username: this.newUsername, password: this.newPassword, role: 'User' };
+      this.registrationErrorMessage = 'Username already taken. Please choose a different one.'; // show error message
+    } else {  
+      const newUser = { username: this.newUsername, password: this.newPassword, role: 'User' }; // create new user object
       this.users.push(newUser);                                                // add new user to users array
       localStorage.setItem('users', JSON.stringify(this.users));               // save users to local storage
 
       // Emit the event to save the user in MongoDB via SocketService
       this.socketService.saveUser(newUser);                                    // Emit saveUser event
 
-      this.successMessage = 'Registration successful! You can now log in.';
-      this.registrationErrorMessage = '';
-      this.loginErrorMessage = '';
+      this.successMessage = 'Registration successful! You can now log in.';  // show success message
+      this.registrationErrorMessage = '';                                     // clear registration error message
+      this.loginErrorMessage = '';                                           // clear login error message
 
-      this.newUsername = '';
-      this.newPassword = '';
+      this.newUsername = '';                                                // clear new username and password fields
+      this.newPassword = '';                                              // after successful registration
       this.showRegistration = false;                                           // toggle off registration form
     }
   }
