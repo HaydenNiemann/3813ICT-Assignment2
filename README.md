@@ -123,3 +123,47 @@ The following Socket.io event handlers manage real-time communication between th
 - **`joinChannel()`**: Allows users to join a channel, updates the active user list, and retrieves chat history when the `joinChannel` event is triggered.
 - **`sendMessage()`**: Sends a message to the specified channel, saves it in MongoDB, and broadcasts the message to other users when the `sendMessage` event is triggered.
 - **`disconnect()`**: Handles user disconnection by removing the user from the active user list and updating other users in the channel when the `disconnect` event is triggered.
+
+
+## REST API and Socket.io Events
+
+### REST API Routes:
+
+The majority of communication in this chat application is handled via **Socket.io** for real-time updates. However, there is a REST API route implemented to handle image uploads for chat messages.
+
+#### **`POST /upload-chat-image`**
+- **Purpose**: Handles image uploads for the chat.
+- **Parameters**:
+  - `image`: The image file uploaded by the user, submitted as form data.
+- **Return Value**: 
+  - Returns the URL of the uploaded image, which can then be included in chat messages.
+  - If no file is uploaded, an error message is returned.
+
+### Socket.io Events
+
+#### **connection**
+- **Purpose**: Initializes a new connection between the client and the server.
+- **Parameters**: None.
+
+#### **joinChannel**
+- **Purpose**: Allows a user to join a specific channel.
+- **Parameters**:
+  - `channelName`: The name of the channel to join.
+  - `username`: The username of the joining user.
+- **Return Value**: Sends chat history and adds the user to the active user list.
+
+#### **sendMessage**
+- **Purpose**: Sends a message to the channel.
+- **Parameters**:
+  - `channelName`: The name of the channel.
+  - `message`: The message content.
+  - `username`: The username of the sender.
+- **Return Value**: Broadcasts the message to all users in the channel.
+
+#### **deleteChannel**
+- **Purpose**: Deletes a channel and all its messages.
+- **Parameters**:
+  - `channelName`: The name of the channel to delete.
+- **Return Value**: Shows all users that the channel has been deleted.
+
+
