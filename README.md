@@ -45,3 +45,23 @@ Represents a message within a channel.
 - **`message`**: The text content of the message.
 - **`imageUrl`**: Optional field that stores the URL of an attached image.
 - **`timestamp`**: The date and time the message was sent.
+
+## Angular Architecture
+
+The application follows a modular Angular architecture with distinct components, services, models, and routes to enhance maintainability.
+
+### Components:
+- **`ChatComponent`**: Manages chat functionality, including creating/joining channels and sending messages (both text and images).
+- **`LoginComponent`**: Handles user login and registration processes.
+
+### Services:
+- **`SocketService`**: Handles real-time communication between the front end and the server using Socket.io.
+
+### Models:
+- **`User`**: Defines the structure for users, including their username, role, and groups.
+- **`Group`**: Defines the structure for groups, including group ID, name, channels, and users.
+- **`Channel`**: Defines the structure for channels, including name and users.
+
+### Routes:
+- **`/login`**: Route for user login and registration.
+- **`/chat`**: Route for the chat interface where users can interact in real time.
