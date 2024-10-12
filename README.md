@@ -18,3 +18,30 @@ The Git repository for this project is set up to keep things organized. It’s s
   - `server.js`: Initializes the server and sets up the main routes.
   - `sockets.js`: Manages real-time communication via Socket.io.
   - Multer setup is integrated directly in `server.js` for handling image uploads. (I was not successful it getting this to work)
+
+## Data Structures
+
+### User Object:
+Represents a user in the system.
+- **`username`**: Unique identifier for the user.
+- **`password`**: User password stored securely, using hash hashed.
+- **`role`**: The role of the user (`User`, `GroupAdmin`, `SuperAdmin`).
+
+### Group Object:
+Represents a collection of users and channels.
+- **`id`**: Unique identifier for the group.
+- **`name`**: Name of the group.
+- **`channels`**: Array of channels within the group.
+- **`users`**: Array of users in the group.
+
+### Channel Object:
+Represents a communication channel within a group.
+- **`name`**: Name of the channel.
+- **`users`**: Array of users in the channel.
+
+### Message Object:
+Represents a message within a channel.
+- **`user`**: The user who sent the message.
+- **`message`**: The text content of the message.
+- **`imageUrl`**: Optional field that stores the URL of an attached image.
+- **`timestamp`**: The date and time the message was sent.
