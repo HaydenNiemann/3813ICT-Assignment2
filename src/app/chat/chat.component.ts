@@ -29,7 +29,7 @@ interface User {
 })
 export class ChatComponent implements OnInit {
   messagecontent: string = '';
-  messages: string[] = [];
+  messages: { text?: string; imageUrl?: string }[] = []; // Updated to handle messages with images
   userRole: string | null = '';
   username: string | null = '';
 
@@ -43,6 +43,8 @@ export class ChatComponent implements OnInit {
   userChannels: Channel[] = [];
   users: User[] = [];
   isCreatingChannel: boolean = false;
+
+  selectedImage: string | ArrayBuffer | null = null;
 
   constructor(private socketService: SocketService, private router: Router) {}
 
@@ -69,7 +71,7 @@ export class ChatComponent implements OnInit {
 
     // Listen for system messages (user joins or leaves)
     this.socketService.onUserJoinOrLeave((message: string) => {
-      this.messages.unshift(message); // Push the system message to the top of the message list
+      this.messages.unshift({ text: message }); // Push the system message to the top of the message list
     });
 
     // Load users from local storage
@@ -97,30 +99,64 @@ export class ChatComponent implements OnInit {
     if (this.username) {
       this.selectedChannel = channel;  // Set the selected channel
       this.messages = [];  // Clear previous messages
-  
+
       // Join the selected channel
       this.socketService.joinChannel(channel.name, this.username);
-  
+
       // Fetch chat history specific to this channel
       this.socketService.getChatHistory((history: any[]) => {
         const sortedHistory = history.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-        this.messages = sortedHistory.map(msg => `${msg.user}: ${msg.message}`);
+        this.messages = sortedHistory.map(msg => ({ text: `${msg.user}: ${msg.message}`, imageUrl: msg.imageUrl }));
       });
-  
+
       // Listen for new messages in this channel only
       this.socketService.getMessages((message: any) => {
         if (this.selectedChannel?.name === message.channelName) {
-          this.messages.unshift(`${message.user}: ${message.message}`);
+          this.messages.unshift({ text: `${message.user}: ${message.message}`, imageUrl: message.imageUrl });
         }
       });
     }
   }
-  
 
+  // Function for handling image selection
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedImage = reader.result;  // Store base64 image
+        console.log("Base64 image data:", this.selectedImage); // Debugging
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Function for sending message (text or image)
   sendMessage(): void {
-    if (this.messagecontent.trim() && this.selectedChannel) {
-      this.socketService.sendMessage(this.selectedChannel.name, this.messagecontent, this.username);
-      this.messagecontent = ''; // Clear input
+    if (this.selectedChannel) {
+      if (this.messagecontent.trim()) {
+        // Send text message
+        this.socketService.sendMessage({
+          channelName: this.selectedChannel.name,
+          message: this.messagecontent,
+          user: this.username,
+          imageUrl: undefined
+        });
+        this.messagecontent = ''; // Clear input after sending
+      } else if (this.selectedImage) {
+        console.log("Sending image message:", this.selectedImage); // Debugging
+
+        // Send image message
+        this.socketService.sendMessage({
+          channelName: this.selectedChannel.name,
+          message: '', // No text, just the image
+          user: this.username,
+          imageUrl: this.selectedImage as string  // Send base64 image
+        });
+
+        // Clear the image after sending
+        this.selectedImage = null;
+      }
     }
   }
 

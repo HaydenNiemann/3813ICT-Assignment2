@@ -16,9 +16,9 @@ export class SocketService {
     this.socket.emit('joinChannel', { channelName, username });
   }
 
-  // Send a message to a specific channel
-  sendMessage(channelName: string, message: string, user: string | null): void {
-    this.socket.emit('sendMessage', { channelName, message, user });
+  // Send a message to a specific channel (text or image)
+  sendMessage(messageData: { channelName: string; message: string; user: string | null; imageUrl?: string }): void {
+    this.socket.emit('sendMessage', messageData);
   }
 
   // Listen for incoming messages in the channel
@@ -96,8 +96,5 @@ export class SocketService {
       const message = `${data.username} has left the channel.`;
       callback(message);
     });
-
-    
-
   }
 }
